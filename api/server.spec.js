@@ -5,6 +5,22 @@ const db = require('../database/dbConfig');
 const testUser = {username: 'testing', password: 'testing'}
 
 
+describe('server.js', () => {
+    describe('Get request for jokes', () => {
+        it('should return a status 401 when not logged in', async () => {
+            const res = await request(server).get('/api/jokes')
+        expect(res.status).toBe(401);
+        })
+        it('should return json', async() => {
+            const res = await request(server).get('/api/jokes');
+            expect(res.type).toBe('application/json')
+        });
+    });
+
+})
+
+
+
 describe('user registration', () => {
     it('should return a status code of 201 when adding a new user', async () => {
         await db('users').truncate()
@@ -16,7 +32,7 @@ describe('user registration', () => {
     it('should return a status code of 500 with an invalid user', async () => {
         const res = await request(server)
         .post('/api/auth/register')
-        .send({user: "test", pass: "jabroni" });
+        .send({user: "test", pass: "thatthat" });
         expect(res.status).toBe(400);
     })
 });
